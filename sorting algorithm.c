@@ -1,14 +1,20 @@
 #include <iostream>
 
+void printArray(int numbers[], int size)
+{
+    for ( int i = 0; i < size; i++ )
+    {
+        printf("%d ", numbers[i]);
+    }
+}
 
-int main(){
-
+void sort(int numbers[], int size)
+{
     int temp;
 
-    int numbers[] = {1, 4, 8, 14, 999, -1, 0, 42, 69};
-    for (int i = 0; i <= 8; i++)
+    for (int i = 0; i < size; i++)
     {
-        for (int j = i + 1; j <= 8; j++)
+        for (int j = i + 1; j < size; j++)
         {
             if (numbers[j] < numbers[i])
             {
@@ -18,10 +24,14 @@ int main(){
             }
         }
     }
-    for (int i = 0; i <= 8; i++)
-    {
-        printf("%d\n", numbers[i]);
-    }
+}
+
+int main(){
+
+    int numbers[] = {1, 4, 8, 14, 999, -1, 0, 42, 69};
+    int size = sizeof(numbers)/sizeof(numbers[0]);
+    sort(numbers, size);
+    printArray(numbers, size);
 
     return 0;
 
