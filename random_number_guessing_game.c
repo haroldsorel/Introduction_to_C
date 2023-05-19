@@ -31,12 +31,12 @@ int difficulty()
     return res;
 }
 
-void looper(int guess, int random_number)
+void looper(int guess, int random_number, int bound2)
 {
     while (guess != random_number)
     {
         printf("Wrong!\n");
-        guess = getinput(1, 10);
+        guess = getinput(1, bound2);
     }
 }
 
@@ -45,6 +45,6 @@ int main()
     int boundary = difficulty();
     int random_number = random_number_generator(1, boundary);
     int guess = getinput(1, boundary);
-    looper(guess, random_number);
+    looper(guess, random_number, boundary);
     printf("Well done, the number was indeed %d!\n", random_number);
 }
