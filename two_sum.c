@@ -37,7 +37,7 @@ int* twoSum(int* nums, int target, int size)
         i1++;
     }
     printnum(res);
-    return res
+    return res;
 }
 
 
