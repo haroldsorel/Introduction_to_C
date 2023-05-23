@@ -3,8 +3,15 @@
 #include <cstdlib>
 #include <ctype.h>
 
+const char PLAYER1 = 'x';
+const char PLAYER2 = 'o';
+char maze[3][3];
+char turn = 2;
+int freespace = 9;
+char winner = ' ';
 
-void maze_printer(char maze[3][3])
+
+void maze_printer()
 {
     for (int i = 0;  i < 3; i++)
     {
@@ -16,74 +23,93 @@ void maze_printer(char maze[3][3])
     }
     printf("\n\n");
 }
-int column()
-{
-    int column;
-    printf("In which column would you like to place your symbole? 1, 2 or 3?\n");
-    scanf(" %d", &column);
-    return column;
-}
 
-int line()
+void playerMove()
 {
-    int line;
-    printf("In which line would you like to place your symbol? 1, 2, 3?\n");
-    scanf(" %d", &line);
-    return line;
-}
+    int x;
+    int y;
 
-bool write(char maze[3][3], int line, int column , int turn)
-{
-    bool res = true;
+    char player;
+    if (turn % 2 == 0) {player = PLAYER1;} else {player = PLAYER2;}
+
+    printf("Enter row (1 -> 3) :\n");
+    scanf(" %d", &x);
+    x--;
+    printf("Enter column (1 -> 3) :\n");
+    scanf(" %d", &y);
+    y--;
+
+    if (maze[x][y] == '_')
     {
-        if (maze[line - 1][column - 1] == '_')
-        {
-            if (turn % 2 == 0)
-            {
-                maze[line - 1 ][column - 1] = 'x';
-            }
-            else
-            {
-                maze[line - 1][column - 1] = 'o';
-            }
-        }
-        else
-        {
-            printf("Space Already Occupied!");
-            res = false;
-        }
-
+        maze[x][y] = player;
+        turn++;
+        freespace--;
     }
-    return res;
+    else
+    {
+        printf("Invalid action!\n");
+    }
+}
+
+void checkWinner()
+{
+    for (int i = 0; i < 3; i++) {
+        //lines
+        if ((maze[i][0] == PLAYER1 && maze[i][1] == PLAYER1 && maze[i][2] == PLAYER1) ||
+            (maze[0][i] == PLAYER1 && maze[1][i] == PLAYER1 && maze[2][i] == PLAYER1))
+        {
+            winner = PLAYER1;
+        }
+        //colums
+        else if ((maze[i][0] == PLAYER2 && maze[i][1] == PLAYER2 && maze[i][2] == PLAYER2) ||
+                 (maze[0][i] == PLAYER2 && maze[1][i] == PLAYER2 && maze[2][i] == PLAYER2))
+        {
+            winner = PLAYER2;
+        }
+    }
+    //diagonals
+    if ((maze[0][0] == PLAYER1 && maze[0][0] == maze[1][1] && maze[0][0] == maze[2][2]) ||
+        (maze[0][2] == PLAYER1 && maze[0][2] == maze[1][1] && maze[0][2] == maze[2][0]))
+    {
+        winner = PLAYER1;
+    }
+    else if ((maze[0][0] == PLAYER2 && maze[0][0] == maze[1][1] && maze[0][0] == maze[2][2]) ||
+             (maze[0][2] == PLAYER2 && maze[0][2] == maze[1][1] && maze[0][2] == maze[2][0]))
+
+    {
+        winner = PLAYER2;
+    }
+
+}
+
+void aftermath()
+{
+    if (winner == PLAYER1)
+    {
+        printf("Player 1 won!\n");
+    }
+    else if (winner == PLAYER2)
+    {
+        printf("Player 2 won!\n");
+    }
+    else
+    {
+        printf("Tie!\n");
+    }
+    printf("Thank you for playing!\n");
 }
 
 
 int main()
 {
-
-    // start creation of the maze
-    char maze[3][3];
-    for (int i = 0;  i < 3; i++)
+    for (int i = 0; i < 3; i++){for (int j = 0; j < 3; j++){maze[i][j] = '_';}}
+    maze_printer();
+    while (winner == ' ' && freespace != 0)
     {
-        for (int j = 0; j < 3; j++)
-        {
-            maze[i][j] = '_';
-        }
+        playerMove();
+        maze_printer();
+        checkWinner();
     }
-    maze_printer(maze);
-    // stop creation of the maze
-
-    //who's turn is it? , always starts with 'x'
-    int turn = 2;
-
-    while (true)
-    {
-        if (write(maze, line(), column(), turn))
-        {
-            turn++;
-        }
-        maze_printer(maze);
-    }
-    printf("Game ended! Thanks for playing.\n");
+    aftermath();
     return 0;
 }
