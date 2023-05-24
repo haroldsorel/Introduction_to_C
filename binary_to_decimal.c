@@ -62,7 +62,6 @@ int main()
     arrayInitializer();
     userInput();
     strReverser();
-    printf("%s\n", binary);
     calculate();
     printf("The decimal number is %d\n", decimal);
     return 0;
