@@ -58,6 +58,7 @@ void maze_inventory_print()
     printf("\n\n");
     for ( int i = 0; i < ROW; i++)
     {
+        printf("\t");
         for ( int j = 0; j < COLUMN; j++)
         {
             printf("%c", maze[i][j]);
@@ -108,18 +109,18 @@ void apple_generator()
 
 int main()
 {
-        maze_generator();
-        maze_inventory_print();
-        while (APPLE < 58)
+    maze_generator();
+    maze_inventory_print();
+    while (APPLE < 58)
 
-        {
-            char keypressed;
-            printf("Type in a key... \nControls : z to go up, q to go left, s to go right, w to go down\n");
-            scanf(" %c", &keypressed);
-            buttonz(keypressed);
-            apple_generator();
-            maze_inventory_print();
-        }
-        printf("Well done, thanks for playing!");
-        return 0;
+    {
+        char keypressed;
+        printf("Type in a key... \nControls : z to go up, q to go left, s to go right, w to go down\n");
+        scanf(" %c", &keypressed);
+        buttonz(keypressed);
+        apple_generator();
+        maze_inventory_print();
     }
+    printf("Well done, thanks for playing!");
+    return 0;
+}
