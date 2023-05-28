@@ -4,6 +4,7 @@
 #include <time.h>
 
 
+
 const int ROWS = 20;
 const int COLUMNS = 41;
 int rowPOS = ROWS/2 - 1;
@@ -72,9 +73,9 @@ void behavior(int move) //defines the behavior of the snake when arrow keys are 
 
 void food_generator() //generates food for the snake and updates food position
 {
-        foodrowPOS = (rand() % 18) + 1;
+        foodrowPOS = (rand() % (ROWS - 2)) + 1;
         do{
-            foodcolPOS = (rand() % 39) + 1;
+            foodcolPOS = (rand() % (COLUMNS - 2)) + 1;
         }while (foodcolPOS % 2 == 0) ;
         move(foodrowPOS, foodcolPOS);
         attroff(COLOR_PAIR(1));
@@ -93,9 +94,8 @@ void checks_dinner() //checks if the snake just ate food and calls food_generato
 }
 
 
-
-int main()
- {
+void initialize()
+{
     srand(time(NULL));
     initscr();
     keypad(stdscr, TRUE);
@@ -107,11 +107,18 @@ int main()
     food_generator();
     mazeprint();
     curs_set(0);
+}
+
+
+int main()
+{
+    initialize();
     while (true)
     {
         int user_input = getch();
         behavior(user_input);
         checks_dinner();
         refresh();
+
     }
 }
